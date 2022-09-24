@@ -47,10 +47,10 @@ jobs:
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
-      - name: Deploy Backend no  Cloud Run
+      - name: Deploy Frontend no  Cloud Run
         id: deploy
         run: |-
-          gcloud run deploy backend \
+          gcloud run deploy frontend \
             --quiet \
             --region  ${{ secrets.GOOGLE_REGION }} \
             --image ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest \
