@@ -29,8 +29,8 @@ jobs:
         ARTIFACT_REGISTRY_REPO: ${{ secrets.ARTIFACT_REGISTRY_REPO }}
         REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
       run: | 
-        docker build -t ${{ secrets.ARTIFACT_REGISTRY_REPO }}/backend:latest .
-        docker push ${{ secrets.ARTIFACT_REGISTRY_REPO }}/backend:latest
+        docker build -t ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest .
+        docker push ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest
   
   Deploy:
     needs: Build
@@ -53,7 +53,7 @@ jobs:
           gcloud run deploy backend \
             --quiet \
             --region  ${{ secrets.GOOGLE_REGION }} \
-            --image ${{ secrets.ARTIFACT_REGISTRY_REPO }}/backend:latest \
+            --image ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest \
             --platform managed \
             --set-env-vars REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }} \
             --allow-unauthenticated \
