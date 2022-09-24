@@ -2,6 +2,12 @@
 FROM node:14-alpine as react-build
 WORKDIR /app
 COPY . ./
+
+
+ARG REACT_APP_BACKEND_URL="https://backendpy-4j35h7sa2a-uw.a.run.app/"
+ENV REACT_APP_BACKEND_URL ${REACT_APP_BACKEND_URL}
+
+
 RUN yarn
 RUN yarn build
 

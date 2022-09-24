@@ -29,7 +29,7 @@ jobs:
         ARTIFACT_REGISTRY_REPO: ${{ secrets.ARTIFACT_REGISTRY_REPO }}
         REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
       run: | 
-        docker build -t ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest .
+        docker build -t ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest --build-arg REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }} .
         docker push ${{ secrets.ARTIFACT_REGISTRY_REPO }}/frontend:latest
   
   Deploy:
