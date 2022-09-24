@@ -1,23 +1,17 @@
-# Multi-stage
-# 1) Node image for building frontend assets
-# 2) nginx stage to serve frontend assets
-
-# Name the node stage "builder"
-FROM node:10 AS builder
-# Set working directory
+# build environment
+FROM node:14-alpine as react-build
 WORKDIR /app
-# Copy all files from current directory to working dir in image
-COPY . .
-# install node modules and build assets
-RUN yarn install && yarn build
+COPY . ./
+RUN yarn
+RUN yarn build
 
-# nginx state for serving content
+# server environment
 FROM nginx:alpine
-# Set working directory to nginx asset directory
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static assets
-RUN rm -rf ./*
-# Copy static assets from builder stage
-COPY --from=builder /app/build .
-# Containers run nginx with global directives and daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+COPY nginx.conf /etc/nginx/conf.d/configfile.template
+
+COPY --from=react-build /app/build /usr/share/nginx/html
+
+ENV PORT 8080
+ENV HOST 0.0.0.0
+EXPOSE 8080
+CMD sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/configfile.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
