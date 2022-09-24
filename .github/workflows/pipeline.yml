@@ -41,7 +41,6 @@ jobs:
         docker push ${{ secrets.ARTIFACT_REGISTRY_REPO }}/myapp:latest
 
   DeployProd:
-    needs: DeployHom
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
