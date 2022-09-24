@@ -6,20 +6,24 @@ function App() {
    	const [data, setData] = useState([]);
 
 	useEffect(() => {
-		fetch("$BACKEND_URL")
+    console.log(process.env.REACT_APP_BACKEND_URL)
+    if(process.env.REACT_APP_BACKEND_URL === undefined) {
+      alert("API não configurada")
+    }
+		fetch(process.env.REACT_APP_BACKEND_URL)
 		 .then((res) => res.json())
       		 .then((result) => setData(result))
-      		 .catch((err) => console.log("error"));
+      		 .catch((err) => console.log("error", err));
 	}, []);
   return (
-    <div class="divTable">
+    <div className="divTable">
       {data &&
         data.map((element, index) => (
-        <div class="headRow">
-          <div class="divCell" align="center">{element.song_id}</div>
-          <div class="divCell divCellName">{element.title}</div>
-          <div class="divCell divCellName">{element.artist}</div>
-          <div class="divCell" align="center">{element.genre}</div>
+        <div className="headRow">
+          <div className="divCell" align="center">{element.song_id}</div>
+          <div className="divCell divCellName">{element.title}</div>
+          <div className="divCell divCellName">{element.artist}</div>
+          <div className="divCell" align="center">{element.genre}</div>
           </div>
         ))}
     </div>
